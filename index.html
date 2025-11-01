@@ -94,6 +94,14 @@ small.help{display:block;margin-top:.35rem;color:var(--silver)}
 </style>
 </head>
 <body>
+  <audio id="bgmusic" src="https://cdn.pixabay.com/download/audio/2022/07/31/audio_3aab5c882d.mp3" preload="auto" loop></audio>
+<script>
+  document.body.addEventListener('click',()=>{
+    const a=document.getElementById('bgmusic');
+    if(a.paused){a.volume=0.25;a.play();}
+  },{once:true});
+</script>
+  
 <div class="wrap">
 
 <!-- INTRO -->
