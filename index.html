@@ -1,538 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MetLife Claim Guide — Anthony Valdez</title>
-  <style>
-    :root{
-      --ink:#0f0f0f;
-      --fog:#f6f6f6;
-      --darkfog:#e8ebec;
-      --silver:#c3c7c9;
-      --line:#d8dbde;
-      --accent:#9aa3a8;
-      --radius:18px;
-      --shadow:0 6px 24px rgba(15,15,15,.08);
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", Consolas, "Liberation Mono", monospace;
-      --sans: "Helvetica Neue","Neue Haas Grotesk",Inter,system-ui,Arial,sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--fog);color:var(--ink);font-family:var(--sans);}
-    a{color:inherit;text-decoration:none;}
-    #metlife-guide{min-height:100vh}
-    .wrap{max-width:980px;margin:0 auto;padding:6vh 6vw;}
-    header{padding:32px 0 12px;margin-bottom:8px;border-bottom:1px solid var(--line);}
-    header h1{font-weight:600;letter-spacing:-.01em;margin:0;font-size:clamp(28px,4vw,40px);}
-    header p{margin:.6rem 0 0;color:#4a4f53;}
-    .meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px;color:#6a7074;font-size:.92rem;}
-    .tag{padding:.25rem .6rem;border:1px solid var(--line);border-radius:999px;background:#fff;}
-    section{padding:36px 24px;margin:20px 0;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);opacity:0;transform:translateY(36px);transition:opacity .6s ease, transform .6s ease;}
-    section.show{opacity:1;transform:translateY(0);}
-    section.alt{background:var(--darkfog);}
-    h2{margin:0 0 .25rem;font:600 .95rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:#6a7074;}
-    h1.sec{margin:.1rem 0 1.2rem;font-weight:550;letter-spacing:-.01em;font-size:clamp(20px,2.5vw,26px);}
-    .field{margin:14px 0;padding:12px;border:1px dashed var(--accent);border-radius:12px;background:rgba(255,255,255,.6);}
-    section.alt .field{background:rgba(255,255,255,.8);}
-    .field label{display:block;font-weight:600;margin-bottom:4px;}
-    .field small{display:block;color:#6a7074;margin-bottom:8px;}
-    .input-box{display:flex;gap:8px;align-items:center;}
-    input.read{flex:1;border:1px solid var(--line);border-radius:10px;padding:.7rem .9rem;font:500 1rem/1.1 var(--mono);background:#fff;color:#0f0f0f;}
-    button.copy{border:1px solid var(--line);background:#fff;border-radius:999px;padding:.55rem .9rem;font:600 .95rem/1 var(--sans);cursor:pointer;transition:transform .08s ease, background .2s;}
-    button.copy:hover{background:#f2f4f5;}
-    button.copy:active{transform:scale(.98);}
-    p.notes{margin:.8rem 0 0;color:#565c60;font-size:.95rem;}
-    .footer-note{margin:36px 0 0;color:#6a7074;font-size:.9rem;text-align:center;}
-    .kbd{font-family:var(--mono);font-size:.92em;background:#eef1f3;border:1px solid var(--line);padding:.1rem .35rem;border-radius:6px;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hi Mom – MetLife Form Guide</title>
+<style>
+:root {
+  --fog:#f6f6f6;
+  --ink:#0f0f0f;
+  --silver:#bdbfbe;
+  --line:#dcdede;
+  --accent:#949597;
+}
+html,body {
+  margin:0;
+  padding:0;
+  background:var(--fog);
+  color:var(--ink);
+  font-family:'Helvetica Neue','Neue Haas Grotesk',Arial,sans-serif;
+  overflow-x:hidden;
+  scroll-behavior:smooth;
+}
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  background:radial-gradient(50% 40% at 48% 30%,rgba(255,255,255,.25),transparent 80%);
+  mix-blend-mode:soft-light;
+  animation:lightShift 20s ease-in-out infinite alternate;
+  pointer-events:none;
+  z-index:0;
+  filter:brightness(1.05) contrast(1.02);
+}
+@keyframes lightShift {
+  0%{transform:translate(0,0) scale(1);}
+  100%{transform:translate(-6%,8%) scale(1.05);}
+}
+
+section {
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:8vw;
+  box-sizing:border-box;
+  opacity:0;
+  transform:translateY(80px);
+  filter:blur(3px);
+  transition:transform 1.4s cubic-bezier(.25,.1,.25,1),
+             opacity 1.4s ease,
+             filter 1.2s ease;
+  position:relative;
+  z-index:1;
+}
+section.active {
+  opacity:1;
+  transform:translateY(0);
+  filter:blur(0);
+}
+section.invert {
+  background:var(--ink);
+  color:var(--fog);
+}
+section.invert h2 {color:var(--silver);}
+section:nth-of-type(even) {
+  background:var(--ink);
+  color:var(--fog);
+}
+section:nth-of-type(even) h2 {color:var(--silver);}
+
+h1 {
+  font-size:3rem;
+  font-weight:500;
+  letter-spacing:-.02em;
+  margin:0 0 1rem;
+  animation:titleGlow 2.4s ease both;
+}
+@keyframes titleGlow {
+  0%{opacity:0;filter:blur(4px);}
+  100%{opacity:1;filter:blur(0);}
+}
+h2 {
+  text-transform:uppercase;
+  letter-spacing:.15em;
+  font-size:1rem;
+  font-weight:400;
+  color:var(--silver);
+  margin:0 0 2rem;
+}
+p {
+  font-size:1.1rem;
+  line-height:1.6;
+  max-width:620px;
+  margin:auto;
+  opacity:.9;
+}
+.button-wrap {
+  display:flex;
+  gap:1rem;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:3rem;
+}
+.button {
+  display:inline-block;
+  padding:1rem 2rem;
+  border-radius:50px;
+  border:1px solid var(--silver);
+  color:inherit;
+  text-decoration:none;
+  transition:all .3s ease;
+  font-size:1rem;
+}
+.button:hover {
+  background:rgba(0,0,0,.07);
+}
+.button.alt {
+  border-color:var(--accent);
+  color:var(--accent);
+}
+footer {
+  padding:3rem 1rem;
+  text-align:center;
+  font-size:.85rem;
+  color:var(--silver);
+  border-top:1px solid var(--line);
+}
+body.fade-out {opacity:0;transition:opacity .8s ease;}
+</style>
 </head>
 <body>
-<div id="metlife-guide">
-  <div class="wrap">
-    <header>
-      <h1>MetLife Claim Guide — Copy-Paste Answers</h1>
-      <p>Prepared for guided filing by <b>Anthony M. Valdez</b>. Use the “Copy” buttons to paste directly into the MetLife portal.</p>
-      <div class="meta">
-        <span class="tag">Minimal</span>
-        <span class="tag">Readable</span>
-        <span class="tag">Alternating light/dark</span>
-      </div>
-    </header>
 
-    <!-- SECTION 1 — Work History -->
-    <section class="alt">
-      <h2>Section 1</h2>
-      <h1 class="sec">Work History</h1>
+<section>
+  <h2>MetLife Claim / Context</h2>
+  <h1>Hi Mom</h1>
+  <p>This page will guide you through filing my short-term disability claim.<br>
+     No rush — just one calm step at a time.</p>
+</section>
 
-      <div class="field">
-        <label>Last Date of Work</label>
-        <small>Required — Date (MM/DD/YYYY)</small>
-        <div class="input-box">
-          <input id="lastWork" class="read" type="text" value="10/03/2025" readonly>
-          <button class="copy" data-for="lastWork">Copy</button>
-        </div>
-      </div>
+<section>
+  <h2>Portal</h2>
+  <h1>Go to the MetLife Claim Intake Site</h1>
+  <p><a href="https://servicing.online.metlife.com/claimintake/claimintake/fileaclaim"
+        style="color:inherit;border-bottom:1px solid var(--silver);text-decoration:none;">Click here to open it</a><br><br>
+     Use email <b>AVENNUI@GMAIL.COM</b> and the saved password.</p>
+</section>
 
-      <div class="field">
-        <label>Work State</label>
-        <small>Required — Dropdown</small>
-        <div class="input-box">
-          <input id="workState" class="read" type="text" value="NEW YORK" readonly>
-          <button class="copy" data-for="workState">Copy</button>
-        </div>
-      </div>
+<section>
+  <h2>Sequence</h2>
+  <h1>About You → Work History → Absence → Doctor → Review</h1>
+  <p>This is the order MetLife uses. Copy each answer exactly as written.<br>
+     Leave blank if it says “Leave Empty.”</p>
+</section>
 
-      <p class="notes">Matches the “Work History” section of MetLife’s portal. Verify that the last date aligns with your HR record.</p>
-    </section>
+<section>
+  <h2>Instruction Break</h2>
+  <h1>Do Not Overthink</h1>
+  <p>Everything saves automatically. If the page flashes white, that’s normal.<br>
+     Take a breath between sections.</p>
+</section>
 
-    <!-- SECTION 2 — Reason for Your Absence -->
-    <section>
-      <h2>Section 2</h2>
-      <h1 class="sec">Reason for Your Absence</h1>
+<section>
+  <h2>Continue</h2>
+  <h1>Start the Form Guide</h1>
+  <p>When you’re ready, click below to go either to the official portal or my pre-filled form guide.</p>
+  <div class="button-wrap">
+    <a class="button" href="https://servicing.online.metlife.com/claimintake/claimintake/fileaclaim" target="_blank">Go to MetLife</a>
+    <a class="button alt" href="form.html">Open My Form Guide</a>
+  </div>
+</section>
 
-      <div class="field">
-        <label>Claim Type</label>
-        <small>Required — Select one</small>
-        <div class="input-box">
-          <input id="claimType" class="read" type="text" value="SHORT TERM DISABILITY" readonly>
-          <button class="copy" data-for="claimType">Copy</button>
-        </div>
-      </div>
+<footer>
+  <p>MetLife Short-Term Disability Claim Guidance · Built with care · Updated 2025-11-01</p>
+</footer>
 
-      <div class="field">
-        <label>Work Related?</label>
-        <small>Required — Dropdown (Yes/No)</small>
-        <div class="input-box">
-          <input id="workRelated" class="read" type="text" value="NO" readonly>
-          <button class="copy" data-for="workRelated">Copy</button>
-        </div>
-      </div>
+<script>
+// fade + scroll reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting)e.target.classList.add('active');
+    else e.target.classList.remove('active');
+  });
+},{threshold:.3});
+document.querySelectorAll('section').forEach(s=>observer.observe(s));
 
-      <div class="field">
-        <label>Reason</label>
-        <small>Required — Dropdown</small>
-        <div class="input-box">
-          <input id="reason" class="read" type="text" value="NON-OCC SERIOUS HEALTH CONDITION" readonly>
-          <button class="copy" data-for="reason">Copy</button>
-        </div>
-      </div>
+// fade-out transition when navigating
+document.querySelectorAll('.button').forEach(btn=>{
+  btn.addEventListener('click',e=>{
+    if(btn.getAttribute('href').startsWith('http')) return; // external link
+    e.preventDefault();
+    document.body.classList.add('fade-out');
+    setTimeout(()=>window.location=btn.href,800);
+  });
+});
+</script>
 
-      <div class="field">
-        <label>Other Related</label>
-        <small>Optional — If none, leave empty</small>
-        <div class="input-box">
-          <input id="otherRelated" class="read" type="text" value="LEAVE BLANK" readonly>
-          <button class="copy" data-for="otherRelated">Copy</button>
-        </div>
-      </div>
-
-      <p class="notes">Select “Non-Occupational Serious Health Condition” for claim type; keep “Work Related?” as “No.”</p>
-    </section>
-    <!-- SECTION 3 — ICD Diagnosis Codes -->
-    <section class="alt">
-      <h2>Section 3</h2>
-      <h1 class="sec">ICD Diagnosis Codes</h1>
-
-      <div class="field">
-        <label>Functional Reason</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="funcReason" class="read" type="text" value="SUBSTANCE USE DISORDER / MOOD DISORDER (DUAL-DX)" readonly>
-          <button class="copy" data-for="funcReason">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Additional Information</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="addlInfo" class="read" type="text" value="Dual-dx: stimulant + mood disorder; seeking stable recovery" readonly>
-          <button class="copy" data-for="addlInfo">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Primary ICD-10 Code</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="icdPrimary" class="read" type="text" value="F15.20" readonly>
-          <button class="copy" data-for="icdPrimary">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Comorbid ICD-10 Code</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="icdComorbid" class="read" type="text" value="F33.1" readonly>
-          <button class="copy" data-for="icdComorbid">Copy</button>
-        </div>
-      </div>
-
-      <p class="notes">Use Dr. Chavez’s diagnostic framing — primary anchors the claim; comorbid strengthens context.</p>
-    </section>
-
-    <!-- SECTION 4 — About You -->
-    <section>
-      <h2>Section 4</h2>
-      <h1 class="sec">About You</h1>
-
-      <div class="field">
-        <label>Name</label>
-        <small>Required — Use ALL CAPS</small>
-        <div class="input-box">
-          <input id="nameFull" class="read" type="text" value="ANTHONY M VALDEZ" readonly>
-          <button class="copy" data-for="nameFull">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Home Address Line 1</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="addr1" class="read" type="text" value="1004 UNION STREET APT 3E" readonly>
-          <button class="copy" data-for="addr1">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>City / State / Zip</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="addrCSZ" class="read" type="text" value="BROOKLYN, NY 11225" readonly>
-          <button class="copy" data-for="addrCSZ">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Country</label>
-        <small>Required — Dropdown</small>
-        <div class="input-box">
-          <input id="country" class="read" type="text" value="UNITED STATES OF AMERICA (USA)" readonly>
-          <button class="copy" data-for="country">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Email</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="email" class="read" type="text" value="AVENNUI@GMAIL.COM" readonly>
-          <button class="copy" data-for="email">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Phone — Home / Cell</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="phone" class="read" type="text" value="909-224-7278" readonly>
-          <button class="copy" data-for="phone">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Date of Birth</label>
-        <small>Required — Date MM/DD/YYYY</small>
-        <div class="input-box">
-          <input id="dob" class="read" type="text" value="10/27/1986" readonly>
-          <button class="copy" data-for="dob">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Gender</label>
-        <small>Optional — Dropdown</small>
-        <div class="input-box">
-          <input id="gender" class="read" type="text" value="MALE" readonly>
-          <button class="copy" data-for="gender">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Marital Status</label>
-        <small>Optional — Dropdown</small>
-        <div class="input-box">
-          <input id="marital" class="read" type="text" value="DIVORCED" readonly>
-          <button class="copy" data-for="marital">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Preferred Mailing Address</label>
-        <small>Optional — Dropdown</small>
-        <div class="input-box">
-          <input id="prefMail" class="read" type="text" value="HOME ADDRESS" readonly>
-          <button class="copy" data-for="prefMail">Copy</button>
-        </div>
-      </div>
-
-      <p class="notes">Use all-caps for address and name fields for clarity; match your official records.</p>
-    </section>
-
-    <!-- SECTION 5 — About Your Absence -->
-    <section class="alt">
-      <h2>Section 5</h2>
-      <h1 class="sec">About Your Absence</h1>
-
-      <div class="field">
-        <label>Accident Claim?</label>
-        <small>Required — Yes/No</small>
-        <div class="input-box">
-          <input id="accident" class="read" type="text" value="NO" readonly>
-          <button class="copy" data-for="accident">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Broken Bone / Fracture?</label>
-        <small>Required — Yes/No</small>
-        <div class="input-box">
-          <input id="fracture" class="read" type="text" value="NO" readonly>
-          <button class="copy" data-for="fracture">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Date of Disability</label>
-        <small>Required — Date MM/DD/YYYY</small>
-        <div class="input-box">
-          <input id="dateDisability" class="read" type="text" value="09/02/2025" readonly>
-          <button class="copy" data-for="dateDisability">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Expected Return to Work</label>
-        <small>Optional — Date MM/DD/YYYY</small>
-        <div class="input-box">
-          <input id="expectedReturn" class="read" type="text" value="12/01/2025" readonly>
-          <button class="copy" data-for="expectedReturn">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>First Date of Absence</label>
-        <small>Optional — Date MM/DD/YYYY</small>
-        <div class="input-box">
-          <input id="firstAbsence" class="read" type="text" value="10/04/2025" readonly>
-          <button class="copy" data-for="firstAbsence">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Hospitalized?</label>
-        <small>Required — Yes/No</small>
-        <div class="input-box">
-          <input id="hospitalized" class="read" type="text" value="YES (PLANNING INPATIENT)" readonly>
-          <button class="copy" data-for="hospitalized">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Surgery?</label>
-        <small>Required — Yes/No</small>
-        <div class="input-box">
-          <input id="surgery" class="read" type="text" value="NO" readonly>
-          <button class="copy" data-for="surgery">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>First Treatment after Last Worked</label>
-        <small>Optional — Date MM/DD/YYYY</small>
-        <div class="input-box">
-          <input id="treatFirst" class="read" type="text" value="09/02/2025" readonly>
-          <button class="copy" data-for="treatFirst">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Next Treatment Date</label>
-        <small>Optional — Date MM/DD/YYYY</small>
-        <div class="input-box">
-          <input id="treatNext" class="read" type="text" value="10/03/2025" readonly>
-          <button class="copy" data-for="treatNext">Copy</button>
-        </div>
-      </div>
-
-      <p class="notes">Chronology: disability 09/02/2025 → treatment continuity → planned inpatient stay (Non-Work Related).</p>
-    </section>
-    <!-- SECTION 6 — About Your Doctor -->
-    <section>
-      <h2>Section 6</h2>
-      <h1 class="sec">About Your Doctor</h1>
-
-      <div class="field">
-        <label>Physician Name</label>
-        <small>Required — Full name</small>
-        <div class="input-box">
-          <input id="docName" class="read" type="text" value="ROBERT R. CHAVEZ, MD" readonly>
-          <button class="copy" data-for="docName">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Facility</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="docFacility" class="read" type="text" value="PRESTON ROBERT TISCH CENTER FOR MEN’S HEALTH" readonly>
-          <button class="copy" data-for="docFacility">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Address</label>
-        <small>Required — Street, City, State ZIP</small>
-        <div class="input-box">
-          <input id="docAddress" class="read" type="text" value="55 EAST 55TH STREET, NEW YORK NY 10022" readonly>
-          <button class="copy" data-for="docAddress">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Phone / Fax</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="docPhone" class="read" type="text" value="646-754-2000 · FAX 646-754-9690" readonly>
-          <button class="copy" data-for="docPhone">Copy</button>
-        </div>
-      </div>
-
-      <p class="notes">Double-check spelling and punctuation — this section ties directly to medical records.</p>
-    </section>
-
-    <!-- SECTION 7 — About Your Employment -->
-    <section class="alt">
-      <h2>Section 7</h2>
-      <h1 class="sec">About Your Employment</h1>
-
-      <div class="field">
-        <label>Date of Hire</label>
-        <small>Required — Date MM/DD/YYYY</small>
-        <div class="input-box">
-          <input id="hireDate" class="read" type="text" value="11/01/2022" readonly>
-          <button class="copy" data-for="hireDate">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Employment Status</label>
-        <small>Required — Dropdown</small>
-        <div class="input-box">
-          <input id="empStatus" class="read" type="text" value="ACTIVE" readonly>
-          <button class="copy" data-for="empStatus">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Full-Time / Part-Time</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="empFullPart" class="read" type="text" value="FULL-TIME" readonly>
-          <button class="copy" data-for="empFullPart">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Worked Half Day?</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="empHalfDay" class="read" type="text" value="NO" readonly>
-          <button class="copy" data-for="empHalfDay">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Subsidiary</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="subsidiary" class="read" type="text" value="TELFAR TV INC." readonly>
-          <button class="copy" data-for="subsidiary">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Work Location / Store #</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="workLocation" class="read" type="text" value="2483 CONEY ISLAND AVE, BROOKLYN NY 11223" readonly>
-          <button class="copy" data-for="workLocation">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Supervisor Name</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="supName" class="read" type="text" value="BRITT TABOR" readonly>
-          <button class="copy" data-for="supName">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Supervisor Phone #</label>
-        <small>Optional</small>
-        <div class="input-box">
-          <input id="supPhone" class="read" type="text" value="212-741-5698" readonly>
-          <button class="copy" data-for="supPhone">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Employer Name</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="employerName" class="read" type="text" value="TELFAR TV INC." readonly>
-          <button class="copy" data-for="employerName">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Employer Address Line 1</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="employerAddr1" class="read" type="text" value="2483 CONEY ISLAND AVE" readonly>
-          <button class="copy" data-for="employerAddr1">Copy</button>
-        </div>
-      </div>
-
-      <div class="field">
-        <label>City / State / Zip</label>
-        <small>Required</small>
-        <div class="input-box">
-          <input id="employerCSZ" class="read" type="text" value="BROOKLYN, NY 11223" readonly>
-          <button class="copy" data-for="employerCSZ">Copy</button>
-        </div>
-      </div>
-
-      <p class="notes">Keep employer details consistent with pay stubs and W-2 forms — Coney Island location only.</p>
-    </section>
-
-    <p class="footer-note">All data verified 2025-10-31 · MetLife Short-Term Disability Claim Guide</p>
-  </div> <!-- end wrap -->
-</div> <!-- end #metlife-guide -->
-
-  <script>
-    // Copy-button logic
-    document.querySelectorAll('button.copy').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const field=document.getElementById(btn.dataset.for);
-        if(field){
-          navigator.clipboard.writeText(field.value);
-          btn.textContent='✓';
-          setTimeout(()=>btn.textContent='Copy',900);
-        }
-      });
-    });
-
-    // Scroll-reveal animation
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(e=>{
-        if(e.isIntersecting)e.target.classList.add('show');
-      });
-    },{threshold:0.12});
-    document.querySelectorAll('section').forEach(sec=>observer.observe(sec));
-  </script>
 </body>
 </html>
