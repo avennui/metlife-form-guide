@@ -266,7 +266,7 @@ small.help{display:block;margin-top:.35rem;color:var(--silver)}
 // reveal-on-scroll
 const obs=new IntersectionObserver((entries)=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show');});
-},{threshold:.2});
+},{threshold:.05});
 document.querySelectorAll('section').forEach(s=>obs.observe(s));
 
 // copy-to-clipboard
