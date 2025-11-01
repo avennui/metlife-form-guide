@@ -4,198 +4,220 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Hi Mom — MetLife Form Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
-/* ===== Custom Cinematic Frost — subtle, cool, precise ===== */
+/* === Cinematic Water-Glass Design === */
 :root{
-  /* Color: cool silver + whisper green */
-  --bg: radial-gradient(1200px 700px at 20% -10%, #edf3ff 0%, transparent 75%),
-        radial-gradient(1000px 600px at 95% 0%, #eaf7f0 0%, transparent 50%),
-        linear-gradient(#f6f8fc, #f3f6fb);
-  --glass: rgba(255,255,255,.66);
-  --edge:  rgba(184,194,210,.52);
-  --ink:   #121522;
-  --muted: #5a6578;
-  --silver:#cfd7e3;
-  --accent:#00a16a; /* celadon-green (Trust Color) */
-  --accent-weak:#e7f6ef;
-
-  --r: 12px;
-  --s1: 6px; --s2:12px; --s3:18px; --s4:26px; --s5:40px;
-  --shadow: 0 10px 26px rgba(40,60,100,.10), 0 2px 8px rgba(40,60,100,.06);
-
-  --f: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  --ink:#0e1117;
+  --fog:#f6f8fa;
+  --mist:#e4ebf3;
+  --silver:#b9c2ce;
+  --light:rgba(255,255,255,.72);
+  --shadow:0 8px 24px rgba(0,0,0,.08), 0 2px 8px rgba(0,0,0,.04);
+  --r:16px;
+  --font:"Plus Jakarta Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
-html,body{margin:0;padding:0;scroll-behavior:smooth;background:var(--bg);color:var(--ink);font-family:var(--f);overflow-x:hidden;}
-.wrap{position:relative;z-index:1;max-width:100vw;}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{
+  background:linear-gradient(180deg,#f8fafc 0%,#edf2f7 100%);
+  font-family:var(--font);
+  color:var(--ink);
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
+
+/* Subtle glassy light drift */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background:
+    radial-gradient(900px 700px at 20% -10%,rgba(255,255,255,.8),transparent 80%),
+    radial-gradient(700px 600px at 90% 10%,rgba(200,220,255,.4),transparent 70%);
+  filter:blur(40px);
+  animation:drift 40s ease-in-out infinite alternate;
+}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(-4%,3%) scale(1.05)}
+}
+
 section{
-  min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;padding:8vh 6vw;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:8vh 6vw;
+  transition:opacity 1s ease, transform 1s ease;
+  opacity:0;transform:translateY(40px);
 }
-.invert{background:var(--ink);color:var(--fog)}
-.invert h2,.invert .muted{color:var(--silver)}
-h1{font-size:3rem;letter-spacing:-.02em;font-weight:500;margin:0 0 1rem}
-h2{text-transform:uppercase;letter-spacing:.15em;font-size:1rem;font-weight:400;color:var(--silver);margin:0 0 2rem}
-.form{width:min(900px,92vw);text-align:left;margin:0 auto}
-.form header h1{font-size:2.2rem;font-weight:600;}
-.form .note{font-size:.95rem;color:var(--muted);margin:.5rem 0 1.5rem}
+section.show{opacity:1;transform:translateY(0)}
+
+h1{font-size:3rem;font-weight:600;letter-spacing:-.015em;margin-bottom:1rem}
+h2{text-transform:uppercase;font-size:1rem;letter-spacing:.15em;color:var(--silver);margin-bottom:1.5rem}
+p{max-width:720px;font-size:1.1rem;line-height:1.55;margin:0 auto 1rem;color:#333}
+
+/* Buttons */
+.button{
+  margin-top:2rem;padding:1rem 2.2rem;border-radius:48px;
+  border:1px solid var(--silver);background:rgba(255,255,255,.4);
+  backdrop-filter:blur(6px);color:var(--ink);text-decoration:none;
+  box-shadow:var(--shadow);transition:all .25s ease;
+}
+.button:hover{background:var(--light);transform:translateY(-1px)}
+
+/* Form Blocks */
+.form{width:min(900px,94vw);text-align:left;margin:0 auto}
 .block{
-  padding:2rem;border-radius:20px;background:var(--glass);
-  backdrop-filter:saturate(120%) blur(3px);
-  border:1px solid rgba(0,0,0,.08);
+  background:rgba(255,255,255,.65);
+  backdrop-filter:blur(10px) saturate(120%);
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:var(--r);
   box-shadow:var(--shadow);
-  margin:0 auto 1.2rem;
+  margin:1rem 0;padding:2rem;
 }
-.block.invert{background:rgba(20,20,20,.85);border-color:rgba(255,255,255,.08);color:var(--fog)}
-.block h3{margin:.2rem 0 1rem;font-weight:600;font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-.field{display:grid;grid-template-columns:220px 1fr auto;gap:14px;align-items:center;margin:.5rem 0}
-.field label{font-size:.95rem;opacity:.9}
-.input-box{display:flex;gap:8px;align-items:center;width:100%}
+.block h3{text-transform:uppercase;font-size:1.05rem;letter-spacing:.06em;margin-bottom:1rem;color:#4e5c70}
+.field{display:grid;grid-template-columns:220px 1fr auto;gap:14px;align-items:center;margin:.6rem 0}
+.field label{font-size:.95rem;color:#222;opacity:.85}
+.input-box{display:flex;gap:8px;align-items:center}
 .input-box input{
-  flex:1;min-width:0;padding:.9rem 1rem;border-radius:12px;
-  border:1px solid rgba(0,0,0,.12);background:#fff;
-  font-size:1rem;letter-spacing:.02em;
+  flex:1;min-width:0;padding:.85rem 1rem;border-radius:10px;
+  border:1px solid rgba(0,0,0,.1);background:#fff;font-size:1rem;
 }
 .copy{
-  padding:.7rem 1rem;border-radius:12px;border:1px solid var(--accent);
-  background:var(--accent-weak);color:var(--accent);cursor:pointer;font-size:.95rem;font-weight:600;
-  white-space:nowrap;
+  padding:.7rem 1rem;border-radius:10px;border:1px solid #b4bfd2;
+  background:rgba(255,255,255,.6);cursor:pointer;
+  transition:background .2s ease;
 }
-.copy:hover{background:var(--accent);color:var(--fog);transform:translateY(-1px)}
-small.help{display:block;margin-top:.35rem;color:var(--muted)}
-footer{padding:24px;text-align:center;color:var(--muted);font-size:.95rem}
+.copy:hover{background:var(--mist)}
+small{color:var(--silver);display:block;margin-top:.3rem;font-size:.9rem}
+
+footer{text-align:center;padding:3rem 1rem;color:#7d8696;font-size:.95rem}
+footer .love{display:block;margin-top:.3rem}
+
 @media (max-width:720px){
-  .field{grid-template-columns:1fr;align-items:stretch}
-  .input-box{width:100%}
-  section{min-height:auto;padding:4rem 6vw;}
+  .field{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<section id="form-start">
+<!-- INTRO -->
+<section id="intro">
+  <h2>MetLife Claim / Context</h2>
+  <h1>Hi Mom</h1>
+  <p>This page guides you through filing my short-term disability claim — calm, steady, one copy-and-paste at a time.</p>
+  <p><b>I’ll text you the login info separately.</b></p>
+  <div class="hr"></div>
+</section>
+
+<section id="sequence">
+  <h2>Sequence</h2>
+  <h1>About You → Work History → Absence → Doctor → Review</h1>
+  <p>Keep this page open while you fill out MetLife’s form in another tab. You’ll copy each answer directly.</p>
+</section>
+
+<section id="break">
+  <h2>Instruction Break</h2>
+  <h1>Do Not Overthink</h1>
+  <p>Every step is already filled in for you. Breathe, copy, paste, continue.</p>
+</section>
+
+<section id="preflight">
+  <h2>Ready to Begin</h2>
+  <h1>Open the MetLife Portal</h1>
+  <p>Once you’ve got the login details from me, click below to open the claim form in a new tab.</p>
+  <a class="button" href="https://servicing.online.metlife.com/claimintake/claimintake/fileaclaim" target="_blank" rel="noopener">Open MetLife</a>
+</section>
+
+<!-- FORM GUIDE -->
+<section id="form">
   <div class="form">
-    <header>
-      <h2>Form Guide</h2>
-      <h1>Step-by-Step Answers</h1>
-      <p class="note">Each group matches MetLife’s on-screen sections (1-8). Tap <b>Copy</b>, switch to MetLife, and paste.</p>
-    </header>
-
-    <div class="block invert">
-      <h3>ACCESS & LOGIN</h3>
-      <div class="field"><label>Site URL</label><div class="input-box"><input id="url" value="https://servicing.online.metlife.com/claimintake/claimintake/fileaclaim" readonly><button class="copy" data-for="url">Copy</button></div></div>
-      <div class="field"><label>Username (Email)</label><div class="input-box"><input id="uemail" value="AVENNUI@GMAIL.COM" readonly><button class="copy" data-for="uemail">Copy</button></div></div>
-      <div class="field"><label>Password</label><div class="input-box"><input value="Ask ANTHONY (Not stored here)" readonly style="color:var(--silver);"><button class="copy" disabled>Ask Anthony</button></div></div>
-    </div>
 
     <div class="block">
       <h3>Section 1 — Work History</h3>
-      <div class="field"><label>Last Date of Work</label><div class="input-box"><input id="s1-last" value="09/01/2025" readonly><button class="copy" data-for="s1-last">Copy</button></div></div>
+      <div class="field"><label>Last Day Worked</label><div class="input-box"><input id="s1-last" value="09/01/2025" readonly><button class="copy" data-for="s1-last">Copy</button></div></div>
       <div class="field"><label>Work State</label><div class="input-box"><input id="s1-state" value="NEW YORK" readonly><button class="copy" data-for="s1-state">Copy</button></div></div>
     </div>
 
-    <div class="block invert">
-      <h3>Section 2 — Reason for Your Absence</h3>
+    <div class="block">
+      <h3>Section 2 — Reason for Absence</h3>
       <div class="field"><label>Claim Type</label><div class="input-box"><input id="s2-type" value="SHORT TERM DISABILITY" readonly><button class="copy" data-for="s2-type">Copy</button></div></div>
       <div class="field"><label>Work Related?</label><div class="input-box"><input id="s2-workrel" value="NO" readonly><button class="copy" data-for="s2-workrel">Copy</button></div></div>
       <div class="field"><label>Reason</label><div class="input-box"><input id="s2-reason" value="NON-OCC SERIOUS HEALTH CONDITION" readonly><button class="copy" data-for="s2-reason">Copy</button></div></div>
-      <div class="field"><label>Other Related</label><div class="input-box"><input id="s2-other" value="(LEAVE BLANK)" readonly><button class="copy" data-for="s2-other">Copy</button></div></div>
     </div>
 
     <div class="block">
-      <h3>Section 3 — ICD Diagnosis Codes</h3>
+      <h3>Section 3 — Diagnosis Codes</h3>
       <div class="field"><label>What prevents work</label><div class="input-box"><input id="s3-functional" value="SUBSTANCE USE DISORDER / MOOD DISORDER (DUAL-DX)" readonly><button class="copy" data-for="s3-functional">Copy</button></div></div>
-      <div class="field"><label>Additional information</label><div class="input-box"><input id="s3-addl" value="Dual-dx: stimulant + mood disorder; seeking stable recovery" readonly><button class="copy" data-for="s3-addl">Copy</button></div></div>
       <div class="field"><label>Primary ICD-10</label><div class="input-box"><input id="s3-icd1" value="F15.20" readonly><button class="copy" data-for="s3-icd1">Copy</button></div></div>
       <div class="field"><label>Comorbid ICD-10</label><div class="input-box"><input id="s3-icd2" value="F33.1" readonly><button class="copy" data-for="s3-icd2">Copy</button></div></div>
     </div>
 
-    <div class="block invert">
-      <h3>Section 4 — About You (Personal Details)</h3>
+    <div class="block">
+      <h3>Section 4 — About You</h3>
       <div class="field"><label>Name</label><div class="input-box"><input id="s4-name" value="ANTHONY M VALDEZ" readonly><button class="copy" data-for="s4-name">Copy</button></div></div>
-      <div class="field"><label>Home Address Line 1</label><div class="input-box"><input id="s4-addr1" value="1004 UNION STREET APT 3E" readonly><button class="copy" data-for="s4-addr1">Copy</button></div></div>
-      <div class="field"><label>City / State / Zip</label><div class="input-box"><input id="s4-csz" value="BROOKLYN, NY 11225" readonly><button class="copy" data-for="s4-csz">Copy</button></div></div>
+      <div class="field"><label>Address</label><div class="input-box"><input id="s4-addr" value="1004 UNION STREET APT 3E, BROOKLYN NY 11225" readonly><button class="copy" data-for="s4-addr">Copy</button></div></div>
       <div class="field"><label>Email</label><div class="input-box"><input id="s4-email" value="AVENNUI@GMAIL.COM" readonly><button class="copy" data-for="s4-email">Copy</button></div></div>
       <div class="field"><label>Phone</label><div class="input-box"><input id="s4-phone" value="909-224-7278" readonly><button class="copy" data-for="s4-phone">Copy</button></div></div>
       <div class="field"><label>Date of Birth</label><div class="input-box"><input id="s4-dob" value="10/27/1986" readonly><button class="copy" data-for="s4-dob">Copy</button></div></div>
-      <div class="field"><label>Marital Status</label><div class="input-box"><input id="s4-marital" value="DIVORCED" readonly><button class="copy" data-for="s4-marital">Copy</button></div></div>
     </div>
 
     <div class="block">
-      <h3>Section 5 — About Your Absence (Dates/Hospitalization)</h3>
+      <h3>Section 5 — Absence Dates</h3>
       <div class="field"><label>Date of Disability</label><div class="input-box"><input id="s5-disab" value="09/02/2025" readonly><button class="copy" data-for="s5-disab">Copy</button></div></div>
-      <div class="field"><label>First Date of Absence</label><div class="input-box"><input id="s5-firstabs" value="09/02/2025" readonly><button class="copy" data-for="s5-firstabs">Copy</button></div></div>
+      <div class="field"><label>First Day of Absence</label><div class="input-box"><input id="s5-firstabs" value="09/02/2025" readonly><button class="copy" data-for="s5-firstabs">Copy</button></div></div>
+      <div class="field"><label>Next Treatment Date</label><div class="input-box"><input id="s5-next" value="09/08/2025" readonly><button class="copy" data-for="s5-next">Copy</button></div></div>
       <div class="field"><label>Expected Return</label><div class="input-box"><input id="s5-return" value="12/01/2025" readonly><button class="copy" data-for="s5-return">Copy</button></div></div>
-      <div class="field"><label>Hospitalized?</label><div class="input-box"><input id="s5-hosp" value="YES (PLANNING INPATIENT)" readonly><button class="copy" data-for="s5-hosp">Copy</button></div></div>
-      <div class="field"><label>Surgery Performed?</label><div class="input-box"><input id="s5-surg" value="NO" readonly><button class="copy" data-for="s5-surg">Copy</button></div></div>
-      <div class="field"><label>First Treatment after Last Worked</label><div class="input-box"><input id="s5-treat1" value="09/02/2025" readonly><button class="copy" data-for="s5-treat1">Copy</button></div></div>
-      <div class="field"><label>Next Treatment Date</label><div class="input-box"><input id="s5-treat2" value="09/08/2025" readonly><button class="copy" data-for="s5-treat2">Copy</button></div></div>
     </div>
 
-    <div class="block invert">
-      <h3>Section 6 — About Your Doctor</h3>
-      <div class="field"><label>Physician Name</label><div class="input-box"><input id="s6-name" value="ROBERT R. CHAVEZ, MD" readonly><button class="copy" data-for="s6-name">Copy</button></div></div>
+    <div class="block">
+      <h3>Section 6 — Doctor</h3>
+      <div class="field"><label>Physician</label><div class="input-box"><input id="s6-name" value="ROBERT R. CHAVEZ, MD" readonly><button class="copy" data-for="s6-name">Copy</button></div></div>
       <div class="field"><label>Facility</label><div class="input-box"><input id="s6-fac" value="PRESTON ROBERT TISCH CENTER FOR MEN’S HEALTH" readonly><button class="copy" data-for="s6-fac">Copy</button></div></div>
       <div class="field"><label>Address</label><div class="input-box"><input id="s6-addr" value="55 EAST 55TH STREET, NEW YORK NY 10022" readonly><button class="copy" data-for="s6-addr">Copy</button></div></div>
-      <div class="field"><label>Phone / Fax</label><div class="input-box"><input id="s6-phone" value="646-754-2000 · FAX 646-754-9690" readonly><button class="copy" data-for="s6-phone">Copy</button></div></div>
     </div>
 
     <div class="block">
-      <h3>Section 7 — About Your Employment</h3>
-     <div class="field"><label>Date of Hire</label><div class="input-box"><input id="s7-hire" value="11/01/2022" readonly><button class="copy" data-for="s7-hire">Copy</button></div></div>
-<div class="field"><label>Employment Status</label><div class="input-box"><input id="s7-status" value="ACTIVE" readonly><button class="copy" data-for="s7-status">Copy</button></div></div>
-<div class="field"><label>Full-Time / Part-Time</label><div class="input-box"><input id="s7-ftp" value="FULL-TIME" readonly><button class="copy" data-for="s7-ftp">Copy</button></div></div>
-<div class="field"><label>Worked Half Day?</label><div class="input-box"><input id="s7-half" value="NO" readonly><button class="copy" data-for="s7-half">Copy</button></div></div>
-<div class="field"><label>Subsidiary</label><div class="input-box"><input id="s7-sub" value="TELFAR TV INC." readonly><button class="copy" data-for="s7-sub">Copy</button></div></div>
-<div class="field"><label>Work Location / Store #</label><div class="input-box"><input id="s7-loc" value="2483 CONEY ISLAND AVE, BROOKLYN NY 11223" readonly><button class="copy" data-for="s7-loc">Copy</button></div></div>
-<div class="field"><label>Supervisor Name</label><div class="input-box"><input id="s7-sup" value="BRITT TABOR" readonly><button class="copy" data-for="s7-sup">Copy</button></div></div>
-<div class="field"><label>Supervisor Phone</label><div class="input-box"><input id="s7-supphone" value="212-741-5698" readonly><button class="copy" data-for="s7-supphone">Copy</button></div></div>
-<div class="field"><label>Employer Name</label><div class="input-box"><input id="s7-empname" value="TELFAR TV INC." readonly><button class="copy" data-for="s7-empname">Copy</button></div></div>
-<div class="field"><label>Employer Address Line 1</label><div class="input-box"><input id="s7-empaddr1" value="2483 CONEY ISLAND AVE" readonly><button class="copy" data-for="s7-empaddr1">Copy</button></div></div>
-<div class="field"><label>City / State / Zip</label><div class="input-box"><input id="s7-empcsz" value="BROOKLYN, NY 11223" readonly><button class="copy" data-for="s7-empcsz">Copy</button></div></div>
-</div>
+      <h3>Section 7 — Employment</h3>
+      <div class="field"><label>Date of Hire</label><div class="input-box"><input id="s7-hire" value="11/01/2022" readonly><button class="copy" data-for="s7-hire">Copy</button></div></div>
+      <div class="field"><label>Employer</label><div class="input-box"><input id="s7-emp" value="TELFAR TV INC., 2483 CONEY ISLAND AVE, BROOKLYN NY 11223" readonly><button class="copy" data-for="s7-emp">Copy</button></div></div>
+    </div>
 
-<div class="block invert">
-  <h3>Finish</h3>
-  <p class="muted">After submitting in MetLife, copy your confirmation number somewhere safe.</p>
-  <div class="input-box">
-    <input id="confirm-note" value="(paste confirmation number here for your records)" readonly>
-    <button class="copy" data-for="confirm-note">Copy</button>
+    <div class="block">
+      <h3>Finish</h3>
+      <p>After submitting in MetLife, copy your confirmation number somewhere safe.</p>
+      <div class="input-box">
+        <input id="confirm" value="(paste confirmation number here for your records)" readonly>
+        <button class="copy" data-for="confirm">Copy</button>
+      </div>
+    </div>
+
   </div>
-  <small class="help">Tip: Screenshot the final page as backup.</small>
-</div>
-
-</div></section>
+</section>
 
 <footer>
-  <span>Built with care — Final Submission Guide</span>
-  <span class="love">Love, Anthony</span>
+  <span>Built with care — Updated 2025-11-02</span>
+  <span class="love">Anthony loves you.</span>
 </footer>
-</div><script>
-// copy-to-clipboard
-document.querySelectorAll('button.copy').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const id=btn.dataset.for;
-    const el=document.getElementById(id);
+
+<script>
+// reveal animation
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show');});
+},{threshold:.1});
+document.querySelectorAll('section').forEach(s=>obs.observe(s));
+
+// copy to clipboard
+document.querySelectorAll('button.copy').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const el=document.getElementById(b.dataset.for);
     if(!el)return;
-    navigator.clipboard.writeText(el.value||"").then(()=>{
-      const old=btn.textContent;btn.textContent='Copied!';btn.disabled=true;
-      setTimeout(()=>{btn.textContent=old;btn.disabled=false;},900);
-    });
+    navigator.clipboard.writeText(el.value);
+    const old=b.textContent;b.textContent='Copied!';b.disabled=true;
+    setTimeout(()=>{b.textContent=old;b.disabled=false;},900);
   });
 });
-
-// unmute audio on first click
-document.addEventListener('click',()=>{
-  const g=document.getElementById('bgmusic');
-  if (g) {
-    g.volume=0.25;
-    g.muted=false;
-    g.play().catch(()=>{});
-  }
-},{once:true});
 </script>
 </body>
 </html>
