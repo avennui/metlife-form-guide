@@ -91,6 +91,12 @@ small.help{display:block;margin-top:.35rem;color:var(--silver)}
   .field{grid-template-columns:1fr;align-items:stretch}
   .input-box{width:100%}
 }
+  /* Mobile fix: ensure form always visible and safe padding */
+@media (max-width:720px){
+  section{min-height:auto;padding:4rem 6vw;}
+  .form{margin-top:3rem;}
+  section.show{opacity:1 !important;filter:none !important;transform:none !important;}
+}
 </style>
 </head>
 <body>
